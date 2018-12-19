@@ -1,0 +1,16 @@
+# This will create a global deny policy that logs all denied traffic. This applies to all namespaces
+# This policy will need to be pushed with calicoctl
+apiVersion: projectcalico.org/v3
+kind: GlobalNetworkPolicy
+metadata:
+  name: calico-log
+spec:
+  order: 9999
+  selector: all()
+  types:
+  - Ingress
+  - Egress
+  ingress:
+  - action: Log
+  egress:
+  - action: Log

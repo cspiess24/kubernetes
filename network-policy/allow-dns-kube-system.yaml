@@ -1,0 +1,21 @@
+# This will allow dns queries from namespaces outside of kube-system
+# You will need to add a component=dns label to your dns pods.
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  namespace: kube-system
+  name: allow-dns
+spec:
+  podSelector:
+    matchLabels:
+      component: dns
+  policyTypes:
+  - Ingress
+  ingress:
+  - from:
+    - namespaceSelector: {}
+    ports:
+    - protocol: TCP
+      port: 53
+    - protocol: UDP
+      port: 53
